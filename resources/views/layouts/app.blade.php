@@ -81,11 +81,7 @@
                         <a href="index.html"><img src="assets/imgs/logo/logo.png" alt="logo"></a>
                     </div>
                     <div class="header-right">
-                        <div class="search-style-1">
-                            <form action="#">
-                                <input type="text" placeholder="Search for items...">
-                            </form>
-                        </div>
+                        @livewire('header-search-component')
                         <div class="header-action-right">
                             <div class="header-action-2">
                                 <div class="header-action-icon-2">
@@ -94,7 +90,7 @@
                                         <span class="pro-count blue">4</span>
                                     </a>
                                 </div>
-                                
+
                                 @livewire('cart-icon-component')
                             </div>
                         </div>
@@ -357,23 +353,23 @@
                                     <li><a href="contact.html">Contact</a></li>
                                     <li><a href="#">My Account<i class="fi-rs-angle-down"></i></a>
 
-                                      @auth 
+                                        @auth
                                         @if(Auth::user()->utype == 'ADM')
-                                            <ul class="sub-menu">
-                                                <li><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
-                                                <li><a href="#">Products</a></li>
-                                                <li><a href="#">Categories</a></li>
-                                                <li><a href="#">Coupons</a></li>
-                                                <li><a href="#">Orders</a></li>
-                                                <li><a href="#">Customers</a></li>
-                                            </ul>
+                                        <ul class="sub-menu">
+                                            <li><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                                            <li><a href="#">Products</a></li>
+                                            <li><a href="#">Categories</a></li>
+                                            <li><a href="#">Coupons</a></li>
+                                            <li><a href="#">Orders</a></li>
+                                            <li><a href="#">Customers</a></li>
+                                        </ul>
 
-                                            @else
-                                            <ul class="sub-menu">
-                                                <li><a href="{{route('user.dashboard')}}">Dashboard</a></li>
-                                            </ul>
-                                          @endif
-                                      @endif
+                                        @else
+                                        <ul class="sub-menu">
+                                            <li><a href="{{route('user.dashboard')}}">Dashboard</a></li>
+                                        </ul>
+                                        @endif
+                                        @endif
                                     </li>
                                 </ul>
                             </nav>
@@ -391,7 +387,7 @@
                                     <span class="pro-count white">4</span>
                                 </a>
                             </div>
-                          @livewire('cart-icon-component')
+                            @livewire('cart-icon-component')
                             <div class="header-action-icon-2 d-block d-lg-none">
                                 <div class="burger-icon burger-icon-white">
                                     <span class="burger-icon-top"></span>
@@ -655,6 +651,7 @@
     <script src="{{ asset('assets/js/shop.js?v=3.3') }}"></script>
 
     @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

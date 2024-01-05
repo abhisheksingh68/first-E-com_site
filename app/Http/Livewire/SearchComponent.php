@@ -10,14 +10,20 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 
 
-class ShopComponent extends Component
+class SearchComponent extends Component
 {
     use WithPagination;
     public $pageSize = 12;
     public $orderBy = "Default Sorting";
 
-    public $min_value = 0;
-    public $max_value = 1000;
+    public $q;
+    public $search_term;
+
+    public function mount()
+    {
+        $this->fill(request()->only('q'));
+        $this->search_term = '%' . $this->q . '%';
+    }
 
     public function store($product_id, $product_name, $product_price,)
     {
@@ -39,17 +45,17 @@ class ShopComponent extends Component
     public function render()
     {
         if ($this->orderBy == 'Price: Low to High') {
-            $products = Product::whereBetween('regular_price', [$this->min_value, $this->max_value])->orderBy('regular_price', 'ASC')->paginate($this->pageSize);
+            $products = Product::where('name', 'like', $this->search_term)->orderBy('regular_price', 'ASC')->paginate($this->pageSize);
         } else if ($this->orderBy == 'Price: High to Low') {
-            $products = Product::whereBetween('regular_price', [$this->min_value, $this->max_value])->orderBy('regular_price', 'DESC')->paginate($this->pageSize);
+            $products = Product::where('name', 'like', $this->search_term)->orderBy('regular_price', 'DESC')->paginate($this->pageSize);
         } else if ($this->orderBy == 'Sort By Newness') {
-            $products = Product::whereBetween('regular_price', [$this->min_value, $this->max_value])->orderBy('created_at', 'DESC')->paginate($this->pageSize);
+            $products = Product::where('name', 'like', $this->search_term)->orderBy('created_at', 'DESC')->paginate($this->pageSize);
         } else {
-            $products = Product::whereBetween('regular_price', [$this->min_value, $this->max_value])->paginate($this->pageSize);
+            $products = Product::where('name', 'like', $this->search_term)->paginate($this->pageSize);
         }
         $categories = Category::orderBy('name', 'ASC')->get();
 
 
-        return view('livewire.shop-component', ['products' => $products, 'categories' => $categories]);
+        return view('livewire.search-component', ['products' => $products, 'categories' => $categories]);
     }
 }
